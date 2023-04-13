@@ -141,6 +141,9 @@ class Gameoflife : public TDT4102::AnimationWindow {
     // Handle the mouse-button clicks captured by handler(int).
     int click_handler(TDT4102::Point pos);
 
+    // Helper function to only trigger a single click per mousedown
+    bool left_mouse_clicked();
+
     // When the "Step" button is pressed, progress time.
     void step_pressed();
 

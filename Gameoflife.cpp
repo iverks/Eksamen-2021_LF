@@ -134,6 +134,10 @@ std::istream& operator>>(std::istream& is, Gameoflife& gameoflife) {
 void Gameoflife::load(const std::string& filename) {
     // BEGIN: G3
     std::ifstream ifs{filename};
+
+    if (!ifs) {
+        throw std::runtime_error{"Could not load a Game of life state from '" + filename + "'."};
+    }
     ifs >> *this;
     step();
     // END: G3
@@ -301,7 +305,12 @@ std::ostream& operator<<(std::ostream& os, const Gameoflife& gameoflife) {
 
 // Provided
 void Gameoflife::step_pressed() {
-    int steps = stoi(steps_input.getText());  // Kan kaste
+    int steps;
+    try {
+        steps = stoi(steps_input.getText());
+    } catch (std::invalid_argument) {
+        steps = 1;
+    }
     steps = std::clamp(steps, min_steps, max_steps);
     step(steps);
 }
@@ -347,10 +356,27 @@ void Gameoflife::play_pause() {
 
 void Gameoflife::run() {
     while (!should_close()) {
+        if (left_mouse_clicked()) {
+            click_handler(get_mouse_coordinates());
+        }
         drawState();
         if (playing) {
             step(1);
         }
+    }
+}
+
+bool Gameoflife::left_mouse_clicked() {
+    static bool was_down = false;
+    bool is_down = is_left_mouse_button_down();
+    if (is_down && was_down) {
+        return false;
+    } else if (is_down) {
+        was_down = true;
+        return true;
+    } else {
+        was_down = false;
+        return false;
     }
 }
 
