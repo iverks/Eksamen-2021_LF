@@ -1,0 +1,6 @@
+/.vscode
+/builddir
+/game-of-life_demo.mp4
+/meson.build
+/subprojects
+/testy.cgol
