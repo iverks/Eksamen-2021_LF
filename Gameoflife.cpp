@@ -355,13 +355,18 @@ void Gameoflife::play_pause() {
 }
 
 void Gameoflife::run() {
+    Uint64 last_updated = 0;
     while (!should_close()) {
         if (left_mouse_clicked()) {
             click_handler(get_mouse_coordinates());
         }
         drawState();
         if (playing) {
-            step(1);
+            Uint64 current = SDL_GetTicks64();
+            if (current - last_updated > animation_interval) {
+                step(1);
+                last_updated = current;
+            }
         }
     }
 }

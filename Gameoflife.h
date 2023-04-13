@@ -37,7 +37,7 @@ constexpr int cell_size = 10;
 // 10 steps/sec = 100 ms
 // 30 steps/sec = 33 ms (roughly)
 // 60 steps/sec = 16 ms (roughly)
-constexpr auto animation_interval = 5;  // ms;
+constexpr Uint64 animation_interval = 50;  // ms;
 
 class Cell {
    public:
