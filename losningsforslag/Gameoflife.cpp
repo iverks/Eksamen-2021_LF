@@ -106,12 +106,12 @@ Gameoflife::Gameoflife(int x_cells,
 
     // END: G1
     for (int i = 0; i < y_cells; i++) {
-        get_current_grid().emplace_back();
+        get_current_grid().push_back({});
         for (int j = 0; j < x_cells; j++) {
             int y_pos = i * cell_size + margin;
             int x_pos = j * cell_size + margin;
             // auto c = grid[current_grid][i][j];
-            get_current_grid().back().emplace_back(Point{x_pos, y_pos}, cell_size);
+            get_current_grid().back().push_back(Cell{Point{x_pos, y_pos}, cell_size});
         }
     }
     get_scratch_grid() = get_current_grid();
@@ -146,7 +146,6 @@ void Gameoflife::load(const std::string& filename) {
 // TASK
 
 void Gameoflife::drawState() {
-    this->next_frame();
     // get_scratch_grid();
 
     for (int row = 0; row < get_current_grid().size(); ++row) {
@@ -361,6 +360,7 @@ void Gameoflife::run() {
             click_handler(get_mouse_coordinates());
         }
         drawState();
+        next_frame();
         if (playing) {
             Uint64 current = SDL_GetTicks64();
             if (current - last_updated > animation_interval) {

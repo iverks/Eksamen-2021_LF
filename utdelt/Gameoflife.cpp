@@ -265,6 +265,7 @@ void Gameoflife::run() {
             click_handler(get_mouse_coordinates());
         }
         drawState();
+        next_frame();
         if (playing) {
             Uint64 current = SDL_GetTicks64();
             if (current - last_updated > animation_interval) {
